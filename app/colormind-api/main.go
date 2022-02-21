@@ -2,27 +2,22 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
+	v1 "github.com/frisk038/gocolormind/app/handlers/v1"
+	_ "github.com/heroku/x/hmetrics/onload"
 )
 
 func main() {
+	build := "main"
+	log := log.New(os.Stdout, "COLORMIND : ", log.LstdFlags|log.Lmicroseconds|log.Lshortfile)
 	port := os.Getenv("PORT")
 
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
-	router := gin.New()
-	router.Use(gin.Logger())
-	router.LoadHTMLGlob("templates/*.tmpl.html")
-	router.Static("/static", "static")
+	api := v1.API(build, log)
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
-	})
-
-	router.Run(":" + port)
+	api.Run(":" + port)
 }
