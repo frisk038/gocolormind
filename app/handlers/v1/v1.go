@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/frisk038/gocolormind/business/generate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +14,7 @@ func API(build string, log *log.Logger) *gin.Engine {
 	router.Use(gin.Logger())
 
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "generate.Generate()", nil)
+		c.JSON(http.StatusOK, generate.Generate())
 	})
 
 	return router
