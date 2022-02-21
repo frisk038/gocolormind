@@ -2,27 +2,28 @@
 package v1
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
-	"github.com/dimfeld/httptreemux/v5"
-	"github.com/frisk038/gocolormind/business/generate"
+	"github.com/gin-gonic/gin"
 )
 
-func API(build string, log *log.Logger) *httptreemux.ContextMux {
-	tm := httptreemux.NewContextMux()
+func API(build string, log *log.Logger) *gin.Engine {
+	port := os.Getenv("PORT")
 
-	h := func(w http.ResponseWriter, r *http.Request) {
-		gen := struct {
-			Combi []string
-		}{
-			Combi: generate.Generate(),
-		}
-		json.NewEncoder(w).Encode(gen)
+	if port == "" {
+		log.Fatal("$PORT must be set")
 	}
 
-	tm.Handle(http.MethodGet, "/combination", h)
+	router := gin.New()
+	router.Use(gin.Logger())
 
-	return tm
+	router.GET("/combination", func(c *gin.Context) {
+		c.String(http.StatusOK, "generate.Generate()", nil)
+	})
+
+	router.Run(":" + port)
+
+	return router
 }
