@@ -21,6 +21,7 @@ func API(build string, log *log.Logger) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 
 	router.GET("/combination", func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
 		c.JSON(http.StatusOK, combination{
 			Date:        time.Now(),
 			Combination: generate.Generate(),
