@@ -1,1 +1,1 @@
-web: bin\colormind-api.exe
+web: bin/colormind-api
