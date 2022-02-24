@@ -2,6 +2,7 @@
 package generate
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -48,17 +49,17 @@ func GenerateFile() {
 
 func ReadFromFile() []string {
 	data, err := ioutil.ReadFile(CombiFileName)
-	switch err {
-	case os.ErrNotExist:
+	switch {
+	case errors.Is(err, os.ErrNotExist):
 		GenerateFile()
 		data, err = ioutil.ReadFile(CombiFileName)
 		if err != nil {
-			return []string{fmt.Sprintf("Cant read combinantion file %s", err)}
+			return []string{fmt.Sprintf("Cant read generated combination file %s", err)}
 		}
 		return strings.Split(string(data), ",")
-	case nil:
+	case err == nil:
 		return strings.Split(string(data), ",")
 	default:
-		return []string{fmt.Sprintf("Cant read combinantion file %s", err)}
+		return []string{fmt.Sprintf("Cant read combination file %s", err)}
 	}
 }

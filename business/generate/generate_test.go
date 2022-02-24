@@ -40,4 +40,11 @@ func TestReadFromFile(t *testing.T) {
 			return
 		}
 	})
+	t.Run("file_deleted", func(t *testing.T) {
+		os.Remove(CombiFileName)
+		arr := ReadFromFile()
+		if len(arr) != 4 {
+			t.Error("arr len in file is not 4 ")
+		}
+	})
 }
