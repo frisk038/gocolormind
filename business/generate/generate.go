@@ -53,14 +53,12 @@ func ReadFromFile() []string {
 		GenerateFile()
 		data, err = ioutil.ReadFile(CombiFileName)
 		if err != nil {
-			fmt.Printf("Cant read combinantion file %s", err)
-			return nil
+			return []string{fmt.Sprintf("Cant read combinantion file %s", err)}
 		}
 		return strings.Split(string(data), ",")
 	case nil:
 		return strings.Split(string(data), ",")
 	default:
-		fmt.Printf("Cant read combinantion file %s", err)
-		return nil
+		return []string{fmt.Sprintf("Cant read combinantion file %s", err)}
 	}
 }

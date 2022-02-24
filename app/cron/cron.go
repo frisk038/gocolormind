@@ -5,8 +5,8 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
-func StartNewCron() {
+func NewCron() *cron.Cron {
 	c := cron.New()
 	c.AddFunc("@midnight", generate.GenerateFile)
-	c.Start()
+	return c
 }
