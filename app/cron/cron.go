@@ -7,6 +7,6 @@ import (
 
 func StartNewCron() {
 	c := cron.New()
-	c.AddFunc("@nidnight", generate.GenerateFile)
+	c.AddFunc("@midnight", generate.GenerateFile)
 	c.Start()
 }
