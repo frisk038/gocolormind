@@ -15,10 +15,26 @@ const CombiFileName string = "/tmp/combination.txt"
 
 var NewRandom = rand.New(rand.NewSource(time.Now().UnixNano()))
 
+func colorInCombi(a string, list []string) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
+}
+
 func generate() []string {
-	combi := []string{"black", "green", "brown", "yellow", "red", "purple"}
-	return []string{combi[NewRandom.Intn(len(combi))], combi[NewRandom.Intn(len(combi))],
-		combi[NewRandom.Intn(len(combi))], combi[NewRandom.Intn(len(combi))]}
+	combiLst := []string{"black", "green", "brown", "yellow", "red", "purple"}
+	combi := make([]string, 4)
+	for i, _ := range combi {
+		color := combiLst[NewRandom.Intn(len(combiLst))]
+		if colorInCombi(color, combi) {
+			color = combiLst[NewRandom.Intn(len(combiLst))]
+		}
+		combi[i] = color
+	}
+	return combi
 }
 
 func GenerateFile() {
