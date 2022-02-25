@@ -11,31 +11,14 @@ import (
 	"time"
 )
 
-const (
-	black = iota + 1
-	green
-	brown
-	yellow
-	red
-	purple
-)
-
 const CombiFileName string = "/tmp/combination.txt"
 
 var NewRandom = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func generate() []string {
-	coulours := map[int]string{black: "black", green: "green", brown: "brown",
-		yellow: "yellow", red: "red", purple: "purple"}
-	combi := make([]string, 4)
-
-	for i := range combi {
-		random := NewRandom.Intn(5) + 1
-		coulour := coulours[random]
-		combi[i] = coulour
-	}
-
-	return combi
+	combi := []string{"black", "green", "brown", "yellow", "red", "purple"}
+	return []string{combi[NewRandom.Intn(len(combi))], combi[NewRandom.Intn(len(combi))],
+		combi[NewRandom.Intn(len(combi))], combi[NewRandom.Intn(len(combi))]}
 }
 
 func GenerateFile() {
