@@ -1,3 +1,4 @@
+// Package cron helps us to use a cron in our app.
 package cron
 
 import (
