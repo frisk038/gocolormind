@@ -4,9 +4,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/frisk038/gocolormind/app/cron"
 	v1 "github.com/frisk038/gocolormind/app/handlers/v1"
 	_ "github.com/heroku/x/hmetrics/onload"
+
+	"github.com/frisk038/gocolormind/app/cron"
 )
 
 func main() {
