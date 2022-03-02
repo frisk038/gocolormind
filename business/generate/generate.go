@@ -16,9 +16,9 @@ const CombiFileName string = "/tmp/combination.txt"
 var NewRandom = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 // Why loop if we can use a map?
-func colorInCombi(a string, list []string) bool { //Use other name than a or list, the function name is colorInCombi why not color and colors?
-	for _, b := range list {
-		if b == a {
+func colorInCombi(color string, combi []string) bool {
+	for _, b := range combi {
+		if color == b {
 			return true
 		}
 	}
@@ -28,7 +28,7 @@ func colorInCombi(a string, list []string) bool { //Use other name than a or lis
 func generate() []string {
 	combiLst := []string{"black", "green", "brown", "yellow", "red", "purple"}
 	combi := make([]string, 4)
-	for i, _ := range combi { // for i := range combi works well
+	for i := range combi {
 		color := combiLst[NewRandom.Intn(len(combiLst))]
 		if colorInCombi(color, combi) {
 			color = combiLst[NewRandom.Intn(len(combiLst))]
@@ -38,7 +38,7 @@ func generate() []string {
 	return combi
 }
 
-func GenerateFile() { // Writing no close
+func GenerateFile() {
 	err := ioutil.WriteFile(CombiFileName,
 		[]byte(strings.Join(generate(), ",")),
 		0644)
@@ -47,7 +47,7 @@ func GenerateFile() { // Writing no close
 	}
 }
 
-func ReadFromFile() []string { // Same readying but no close
+func ReadFromFile() []string {
 	data, err := ioutil.ReadFile(CombiFileName)
 	switch {
 	case errors.Is(err, os.ErrNotExist):
