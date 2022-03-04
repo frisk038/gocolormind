@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 const CombiFileName string = "/tmp/combination.txt"
@@ -21,12 +22,13 @@ func colorInCombi(color string, combi []string) bool {
 }
 
 func generate() []string {
+	random := rand.New(rand.NewSource(time.Now().UnixNano()))
 	combiLst := []string{"black", "green", "brown", "yellow", "red", "purple"}
 	combi := make([]string, 4)
 	for i := range combi {
-		color := combiLst[rand.Intn(len(combiLst))]
+		color := combiLst[random.Intn(len(combiLst))]
 		if colorInCombi(color, combi) {
-			color = combiLst[rand.Intn(len(combiLst))]
+			color = combiLst[random.Intn(len(combiLst))]
 		}
 		combi[i] = color
 	}
