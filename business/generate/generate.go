@@ -4,6 +4,7 @@ package generate
 import (
 	"bufio"
 	"errors"
+	"log"
 	"math/rand"
 	"os"
 	"strings"
@@ -53,6 +54,7 @@ func ReadFromFile() ([]string, error) {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
+	log.Println(scanner.Text())
 
 	return strings.Split(scanner.Text(), ","), nil
 }
