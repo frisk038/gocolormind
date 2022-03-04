@@ -9,9 +9,8 @@ import (
 )
 
 func Gen(c *gin.Context) {
-
-	data, err := generate.ReadFromFile()
 	c.Header("Access-Control-Allow-Origin", "*")
+	data, err := generate.ReadFromFile()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return

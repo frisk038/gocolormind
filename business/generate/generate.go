@@ -55,9 +55,7 @@ func ReadFromFile() ([]string, error) {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
-	if len(scanner.Text()) == 0 {
-		generate()
-	}
+	scanner.Scan()
 
 	return strings.Split(scanner.Text(), ","), nil
 }
