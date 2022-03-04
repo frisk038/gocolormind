@@ -11,12 +11,12 @@ import (
 func Gen(c *gin.Context) {
 
 	data, err := generate.ReadFromFile()
+	c.Header("Access-Control-Allow-Origin", "*")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	c.Header("Access-Control-Allow-Origin", "*")
 	c.JSON(http.StatusOK, combination{
 		Date:        time.Now(),
 		Combination: data,

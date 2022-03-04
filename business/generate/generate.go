@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const CombiFileName string = "/tmp/combination.txt"
+const CombiFileName string = "../tmp/combination.txt"
 
 func colorInCombi(color string, combi []string) bool {
 	for _, b := range combi {
