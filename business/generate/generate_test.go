@@ -15,22 +15,22 @@ func isCombiFileExists(t *testing.T) {
 
 func TestGenerateFile(t *testing.T) {
 	t.Run("succes", func(t *testing.T) {
-		GenerateFile()
+		CreateFile()
 		isCombiFileExists(t)
 	})
 	t.Run("already_exists", func(t *testing.T) {
-		GenerateFile()
+		CreateFile()
 		isCombiFileExists(t)
-		GenerateFile()
+		CreateFile()
 		isCombiFileExists(t)
 	})
 }
 
 func TestReadFromFile(t *testing.T) {
 	t.Run("succes", func(t *testing.T) {
-		GenerateFile()
+		CreateFile()
 		isCombiFileExists(t)
-		arr := ReadFromFile()
+		arr, _ := ReadFromFile()
 		switch {
 		case len(arr) != 4:
 			t.Error("arr len in file is not 4 ")
@@ -42,7 +42,7 @@ func TestReadFromFile(t *testing.T) {
 	})
 	t.Run("file_deleted", func(t *testing.T) {
 		os.Remove(CombiFileName)
-		arr := ReadFromFile()
+		arr, _ := ReadFromFile()
 		if len(arr) != 4 {
 			t.Error("arr len in file is not 4 ")
 		}
