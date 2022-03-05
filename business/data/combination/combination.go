@@ -6,7 +6,6 @@ package combination
 import (
 	"database/sql"
 	"time"
-	"unsafe"
 
 	"github.com/frisk038/gocolormind/business/data/db"
 	"github.com/frisk038/gocolormind/business/generate"
@@ -41,10 +40,10 @@ func (cr Core) Create(c *gin.Context, now time.Time) (DailyCombination, error) {
 		return DailyCombination{}, err
 	}
 
-	return toCmb(dbCmb), nil
+	return DailyCombination(dbCmb), nil
 }
 
-func toCmb(dbCmb db.DailyCombination) DailyCombination {
-	cmb := (*DailyCombination)(unsafe.Pointer(&dbCmb))
-	return *cmb
-}
+// func toCmb(dbCmb db.DailyCombination) DailyCombination {
+// 	cmb := (*DailyCombination)(unsafe.Pointer(&dbCmb))
+// 	return *cmb
+// }
