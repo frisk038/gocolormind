@@ -52,19 +52,19 @@ func CreateFile() {
 	wrt.Flush()
 }
 
-func ReadFromFile() (string, error) {
+func ReadFromFile() ([]string, error) {
 	if _, err := os.Stat(CombiFileName); errors.Is(err, os.ErrNotExist) {
 		CreateFile()
 	}
 
 	f, err := os.Open(CombiFileName)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
 	scanner.Scan()
 
-	return scanner.Text(), nil
+	return strings.SplitAfter(scanner.Text(), ","), nil
 }

@@ -11,7 +11,7 @@ import (
 
 type CombinPld struct {
 	Date        time.Time `json:"date"`
-	Combination string    `json:"combi"`
+	Combination []string  `json:"combi"`
 }
 
 // Handlers manages the set of product endpoints.
@@ -28,8 +28,8 @@ func (h Handlers) Create(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusCreated, CombinPld{
-		Date:        newCombi.CreatedAt,
-		Combination: newCombi.Combi,
+		Date: newCombi.CreatedAt,
+		// Combination: newCombi.Combi,
 	})
 }
 

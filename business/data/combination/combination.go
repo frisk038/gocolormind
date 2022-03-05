@@ -40,6 +40,8 @@ func (cr Core) Create(c *gin.Context, now time.Time) (DailyCombination, error) {
 		return DailyCombination{}, err
 	}
 
+	// dbCmb.Combi = strings.SplitAfter()[]
+
 	return DailyCombination(dbCmb), nil
 }
 

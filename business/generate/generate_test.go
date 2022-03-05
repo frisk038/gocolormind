@@ -34,7 +34,7 @@ func TestReadFromFile(t *testing.T) {
 		switch {
 		case len(arr) != 4:
 			t.Error("arr len in file is not 4 ")
-		case arr == "":
+		case arr == nil:
 			t.Error("arr is nil")
 		default:
 			return
