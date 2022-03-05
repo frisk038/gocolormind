@@ -66,5 +66,5 @@ func ReadFromFile() ([]string, error) {
 	scanner := bufio.NewScanner(f)
 	scanner.Scan()
 
-	return strings.SplitAfter(scanner.Text(), ","), nil
+	return strings.Split(scanner.Text(), ","), nil
 }
