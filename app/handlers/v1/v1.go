@@ -23,7 +23,7 @@ func API(build string, log *log.Logger, cfg Config) *gin.Engine {
 	}
 
 	router.GET("/combination", Gen)
-	router.POST("/newCombinationDB", cmbHand.Create)
+	router.POST("/cmbdb", cmbHand.Create)
 
 	return router
 }

@@ -21,15 +21,14 @@ type Handlers struct {
 
 func (h Handlers) Create(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-	now := time.Now()
-	newCombi, err := h.Combi.Create(c, now)
+	newCombi, err := h.Combi.Create(c, time.Now())
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.IndentedJSON(http.StatusBadRequest, err)
 		return
 	}
 
-	c.JSON(http.StatusOK, CombinPld{
-		Date:        now,
+	c.IndentedJSON(http.StatusCreated, CombinPld{
+		Date:        newCombi.CreatedAt,
 		Combination: newCombi.Combi,
 	})
 }
@@ -38,11 +37,11 @@ func Gen(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	data, err := generate.ReadFromFile()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.IndentedJSON(http.StatusNotFound, err)
 		return
 	}
 
-	c.JSON(http.StatusOK, CombinPld{
+	c.IndentedJSON(http.StatusOK, CombinPld{
 		Date:        time.Now(),
 		Combination: data,
 	})
