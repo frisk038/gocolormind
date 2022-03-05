@@ -8,7 +8,10 @@ require (
 	github.com/heroku/x v0.0.49
 )
 
-require github.com/robfig/cron/v3 v3.0.0
+require (
+	github.com/lib/pq v1.10.4
+	github.com/robfig/cron/v3 v3.0.0
+)
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
