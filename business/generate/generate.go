@@ -36,11 +36,19 @@ func generate() []string {
 }
 
 func CreateFile() {
-	data := []byte(strings.Join(generate(), ","))
-	err := os.WriteFile(CombiFileName, data, 0644)
+	data := (strings.Join(generate(), ","))
+	f, err := os.Create(CombiFileName)
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
+
+	wrt := bufio.NewWriter(f)
+	_, err = wrt.WriteString(data)
+	if err != nil {
+		panic(err)
+	}
+	wrt.Flush()
 }
 
 func ReadFromFile() ([]string, error) {
