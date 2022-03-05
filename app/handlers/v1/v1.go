@@ -3,15 +3,9 @@ package v1
 
 import (
 	"log"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
-
-type combination struct {
-	Date        time.Time `json:"date"`
-	Combination []string  `json:"combi"`
-}
 
 func API(build string, log *log.Logger) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
@@ -19,6 +13,7 @@ func API(build string, log *log.Logger) *gin.Engine {
 	router.Use(gin.Logger())
 
 	router.GET("/combination", Gen)
+	router.POST("/newCombinationDB")
 
 	return router
 }

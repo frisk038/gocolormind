@@ -1,11 +1,16 @@
-// Package combination contains combination related CRUD functionality.
+// Package combination provides an example of a core business API. Right now
+// these calls are just wrapping the data/store layer. But at some point you
+// will want auditing or something that isn't specific to the data/store layer.
 package combination
 
 import (
 	"database/sql"
-	"errors"
-	"fmt"
 	"time"
+	"unsafe"
+
+	"github.com/frisk038/gocolormind/business/data/db"
+	"github.com/frisk038/gocolormind/business/generate"
+	"github.com/gin-gonic/gin"
 )
 
 type DailyCombination struct {
@@ -14,34 +19,32 @@ type DailyCombination struct {
 	UpdatedAt time.Time
 }
 
-type DB struct {
-	*sql.DB
+type Core struct {
+	store db.Store
 }
 
-func (db DB) Combination() (DailyCombination, error) {
-	var dCombi DailyCombination
-
-	row := db.QueryRow("SELECT * FROM daily_combination LIMIT 1")
-	if err := row.Scan(&dCombi.Combi, &dCombi.CreatedAt, &dCombi.UpdatedAt); err != nil {
-		return dCombi, errors.New("no combination found")
+// NewCore constructs a core for product api access.
+func NewCore(str *sql.DB) Core {
+	return Core{
+		store: db.NewStore(str),
 	}
-	return dCombi, nil
 }
 
-func (db DB) AddCombination(cmb DailyCombination) error {
-	_, err := db.Exec("INSERT INTO daily_combination (combination, date_created, date_updated) VALUES ($1, $2, $3)", cmb.Combi, cmb.CreatedAt, cmb.UpdatedAt)
-	if err != nil {
-		return fmt.Errorf("addCombination: %v", err)
+func (cr Core) Create(c *gin.Context, now time.Time) (DailyCombination, error) {
+	dbCmb := db.DailyCombination{
+		Combi:     generate.Generate(),
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
-	return nil
+	if _, err := cr.store.AddCombination(dbCmb); err != nil {
+		return DailyCombination{}, err
+	}
+
+	return toCmb(dbCmb), nil
 }
 
-func (db DB) UpdateCombination(cmb DailyCombination) error {
-	_, err := db.Exec("INSERT INTO daily_combination (combination, date_updated) VALUES ($1, $2)", cmb.Combi, cmb.UpdatedAt)
-	if err != nil {
-		return fmt.Errorf("UpdateCombination: %v", err)
-	}
-
-	return nil
+func toCmb(dbCmb db.DailyCombination) DailyCombination {
+	cmb := (*DailyCombination)(unsafe.Pointer(&dbCmb))
+	return *cmb
 }

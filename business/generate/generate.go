@@ -21,7 +21,7 @@ func colorInCombi(color string, combi []string) bool {
 	return false
 }
 
-func generate() []string {
+func Generate() string {
 	random := rand.New(rand.NewSource(time.Now().UnixNano()))
 	combiLst := []string{"black", "green", "brown", "yellow", "red", "purple"}
 	combi := make([]string, 4)
@@ -32,11 +32,12 @@ func generate() []string {
 		}
 		combi[i] = color
 	}
-	return combi
+
+	return strings.Join(combi, ",")
 }
 
 func CreateFile() {
-	data := (strings.Join(generate(), ","))
+	data := Generate()
 	f, err := os.Create(CombiFileName)
 	if err != nil {
 		panic(err)
@@ -51,19 +52,19 @@ func CreateFile() {
 	wrt.Flush()
 }
 
-func ReadFromFile() ([]string, error) {
+func ReadFromFile() (string, error) {
 	if _, err := os.Stat(CombiFileName); errors.Is(err, os.ErrNotExist) {
 		CreateFile()
 	}
 
 	f, err := os.Open(CombiFileName)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
 	scanner.Scan()
 
-	return strings.Split(scanner.Text(), ","), nil
+	return scanner.Text(), nil
 }
