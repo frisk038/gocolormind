@@ -9,13 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func API(build string, log *log.Logger) *gin.Engine {
+type Config struct {
+	DB *sql.DB
+}
+
+func API(build string, log *log.Logger, cfg Config) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.Use(gin.Logger())
 
 	cmbHand := Handlers{
-		Combi: combination.NewCore(&sql.DB{}),
+		Combi: combination.NewCore(cfg.DB),
 	}
 
 	router.GET("/combination", Gen)

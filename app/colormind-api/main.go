@@ -30,7 +30,11 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	api := v1.API(build, log)
+	cfg := v1.Config{
+		DB: db,
+	}
+
+	api := v1.API(build, log, cfg)
 
 	api.Run(":" + port)
 }
