@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/frisk038/gocolormind/business/data/combination"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,12 +17,8 @@ func API(build string, log *log.Logger, cfg Config) *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Logger())
 
-	cmbHand := Handlers{
-		Combi: combination.NewCore(cfg.DB),
-	}
-
 	router.GET("/combination", Gen)
-	router.POST("/cmbdb", cmbHand.Create)
+	// router.POST("/cmbdb", cmbHand.Create)
 
 	return router
 }
